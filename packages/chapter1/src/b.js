@@ -34,7 +34,9 @@ class HardWork {
 
   do() {
     for (let i = 0; i < this._tasks.length; i++) {
-      this._tasks[i]();
+      setInterval(() => {
+        this._tasks[i]();
+      }, 0);
     }
   }
 
