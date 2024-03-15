@@ -17,6 +17,7 @@
  * 2. 테스트 통과 캡쳐 이미지
  */
 
+/*
 // 생성자 함수는 수정하지 마세요
 function Worker(health) {
   this._health = health ?? 10;
@@ -56,6 +57,7 @@ JuniorEngineer.prototype.work = function () {
 JuniorEngineer.prototype.isBornGenius = function () {
   return this._isBornGenius ?? false;
 };
+*/
 
 /**
  * ## 문제 A - 추가문제
@@ -80,17 +82,58 @@ JuniorEngineer.prototype.isBornGenius = function () {
  * - V8 엔진의 히든클래스 개념을 이해하고 이 개념을 응용하여 최적화 해보세요.
  * - ES 모듈시스템으로 바꾼뒤, 확장자를 .mjs로 변경한 뒤 실행해보세요. 최적화 결과가 같을까요?
  */
-// function main() {
-//   var startTime = performance.now();
-//   for (var i = 0; i < 10000000; i++) {
-//     new JuniorEngineer(10, Math.floor(Math.random() * 20)).isBornGenius();
-//   }
-//   var endTime = performance.now();
 
-//   console.log(endTime - startTime);
-// }
+class Worker {
+  constructor(health) {
+    this._health = health ?? 10;
+    this._intelligence = 0;
+    this._isBornGenius = false;
+  }
 
-// main();
+  getHealth() {
+    return this._health;
+  }
+
+  work() {
+    this._health--;
+  }
+}
+
+class JuniorEngineer extends Worker {
+  constructor(health, intelligence) {
+    super(health);
+    this._intelligence = intelligence ?? 1;
+    this._isBornGenius = this._intelligence > 10;
+  }
+
+  getIntelligence() {
+    return this._intelligence;
+  }
+
+  work() {
+    super.work();
+    this._intelligence++;
+    if (!this._isBornGenius && this._intelligence > 10) {
+      this._isBornGenius = true;
+    }
+  }
+
+  isBornGenius() {
+    return this._isBornGenius;
+  }
+}
+
+function main() {
+  var startTime = performance.now();
+  for (var i = 0; i < 10000000; i++) {
+    new JuniorEngineer(10, Math.floor(Math.random() * 20)).isBornGenius();
+  }
+  var endTime = performance.now();
+
+  console.log(endTime - startTime);
+}
+
+main();
 
 module.exports = {
   Worker,
