@@ -32,15 +32,11 @@ class HardWork {
   }
 
   do() {
-    this._executeTask(0);
-  }
-
-  _executeTask(index) {
-    if (index >= this._tasks.length) return;
-
-    this._tasks[index]();
-
-    requestAnimationFrame(() => this._executeTask(index++));
+    this._tasks.forEach((task) => {
+      setTimeout(() => {
+        task();
+      }, 0);
+    });
   }
 
   // do() 이외의 메서드는 수정하지마세요
