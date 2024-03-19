@@ -32,10 +32,14 @@ class HardWork {
   }
 
   do() {
-    this._tasks.forEach((task) => {
-      setTimeout(() => {
-        task();
-      }, 0);
+    const tasks = this._tasks.slice(start, end);
+
+    for (let i = 0; i < tasks.length; i++) {
+      tasks[i]();
+    }
+
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(end), 0);
     });
   }
 
