@@ -4,7 +4,6 @@ export function createHooks(callback) {
 
   const useState = (initState) => {
     const key = hooksKey;
-    console.log("useState is call and key is", key);
 
     if (hooks[key] === undefined) {
       hooks[key] = initState;
@@ -15,18 +14,12 @@ export function createHooks(callback) {
         return;
       }
 
-      console.log("setState is called and key is: ", key);
-
       hooks[key] = newState;
-
-      console.log("state is changed and value is: ", hooks[key]);
 
       callback();
     };
 
     hooksKey += 1;
-
-    console.log("value returned from useState is: ", hooks[key]);
 
     return [hooks[key], setState];
   };

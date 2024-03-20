@@ -65,7 +65,6 @@ describe("MyReact > ", () => {
         let fn = null;
         const App = () => {
           const [size, setSize] = react.useState(1);
-          console.log("App is called and size is: ", size);
           fn = setSize;
           return jsx(
             "div",
@@ -82,7 +81,6 @@ describe("MyReact > ", () => {
         const beforeChildren = [...$root.querySelectorAll("p")];
         expect($root.innerHTML).toBe(`<div><p>1번째 자식</p></div>`);
 
-        console.log("before setState(2) is called");
         fn(2);
 
         expect($root.innerHTML).toBe(
