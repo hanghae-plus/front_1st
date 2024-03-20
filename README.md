@@ -1,7 +1,6 @@
-교육자료 코드 저장소
+## Chapter 2
+### 과제 A
+<img width="807" alt="image" src="https://github.com/gihwan-dev/front_1st_Gihwan_Choi/assets/84307361/c20476f4-2496-4d7c-acc9-9792b5abea44">
 
-## 목차
-
-1. 자바스크립트 기본기 다지기
-   1. [프로토타입과 V8엔진 히든클래스 이해하기](./packages/chapter1/src/a.js)
-   2. [MicroTask 큐, MacroTask 큐, 애니메이션 등 비동기 메커니즘 이해하기](./packages/chapter1/src/b.js)
+### 과제 B
+<img width="723" alt="image" src="https://github.com/gihwan-dev/front_1st_Gihwan_Choi/assets/84307361/b3a19f58-b873-411a-8a3a-1ee52949d2cb">
