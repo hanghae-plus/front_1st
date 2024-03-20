@@ -1,6 +1,7 @@
 ## Chapter 2
-### A
-<img width="835" alt="image" src="https://github.com/gihwan-dev/front_1st_Gihwan_Choi/assets/84307361/59ce87f8-f040-4337-b0ca-7c4b6697e764">
+### 과제 A
+<img width="807" alt="image" src="https://github.com/gihwan-dev/front_1st_Gihwan_Choi/assets/84307361/c20476f4-2496-4d7c-acc9-9792b5abea44">
 
-### B
-<img width="687" alt="image" src="https://github.com/gihwan-dev/front_1st_Gihwan_Choi/assets/84307361/ff71eb34-7410-4929-b6ad-041cd6f8c974">
+### 과제 B
+<img width="723" alt="image" src="https://github.com/gihwan-dev/front_1st_Gihwan_Choi/assets/84307361/b3a19f58-b873-411a-8a3a-1ee52949d2cb">
+
