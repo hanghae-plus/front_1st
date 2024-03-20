@@ -1,40 +1,63 @@
 export function createHooks(callback) {
-  let curStateKey = 0;
-  let states = [];
+  let hooksKey = 0;
+  let hooks = [];
 
   const useState = (initState) => {
-    const key = curStateKey;
+    const key = hooksKey++;
 
-    if (curStateKey === states.length) {
-      states.push(initState);
+    if (hooks[key] === undefined) {
+      hooks[key] = initState;
     }
 
-    let state = states[key];
-
     const setState = (newState) => {
-      if (state === newState) {
+      if (hooks[key] === newState) {
         return;
       }
 
-      states[key] = newState;
-      state = states[key];
+      hooks[key] = newState;
 
       callback();
     };
 
-    curStateKey += 1;
+    hooksKey += 1;
 
-    return [state, setState];
+    return [hooks[key], setState];
   };
 
   const useMemo = (fn, refs) => {
-    return fn();
+    const key = hooksKey;
+
+    if (hooks[key] === undefined) {
+      hooks[key] = {
+        value: fn(),
+        dependencies: refs,
+      };
+    } else {
+      let hasChanged = false;
+      const oldDependencies = hooks[key].dependencies;
+
+      refs.forEach((dep, index) => {
+        const areTheSame = Object.is(dep, oldDependencies[index]);
+        if (!areTheSame) {
+          hasChanged = true;
+        }
+      });
+
+      if (hasChanged) {
+        hooks[key] = {
+          value: fn(),
+          dependencies: refs,
+        };
+      }
+    }
+
+    hooksKey += 1;
+
+    return hooks[key];
   };
 
   const resetContext = () => {
-    if (curStateKey >= states.length) {
-      curStateKey -= states.length;
-    }
+    hooksKey = 0;
   };
 
   return { useState, useMemo, resetContext };
