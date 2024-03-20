@@ -21,7 +21,7 @@ export function createElement(node) {
   const element = document.createElement(node.type);
 
   if (!isNull(node.props)) {
-    setAttributes(node.props, element);
+    setAttributes(node.props ?? {}, element);
   }
 
   node.children.forEach((child) => {
