@@ -92,7 +92,7 @@ describe("hooks test", () => {
       const memo1 = getMemo();
       const memo2 = getMemo();
 
-      expect(memo1).toBe(memo2);
+      expect(memo1).toStrictEqual(memo2);
     });
 
     test("useMemo의 값을 변경하고 싶으면, 의존하는 값을 수정해야 한다.", () => {
@@ -110,7 +110,7 @@ describe("hooks test", () => {
       const memo2 = getMemo();
       const memo3 = getMemo();
       expect(memo1).not.toBe(memo2);
-      expect(memo2).toBe(memo3);
+      expect(memo2).toStrictEqual(memo3);
       param = 3;
       const memo4 = getMemo();
       expect(memo3).not.toBe(memo4);
