@@ -44,7 +44,7 @@ describe("MyReact > ", () => {
     });
   });
 
-  describe("hook 사용해보기 1", () => {
+  describe("hook 사용해보기", () => {
     describe("useState > ", () => {
       test("값을 정의하고 사용할 수 있다.", () => {
         const App = () => {
@@ -57,10 +57,7 @@ describe("MyReact > ", () => {
 
         expect($root.innerHTML).toBe(`<div>현재 state: 1</div>`);
       });
-    });
-  });
-  describe("hook 사용해보기 2", () => {
-    describe("useState > ", () => {
+
       test("값을 업데이트 할 수 있다.", () => {
         let fn = null;
         const App = () => {
