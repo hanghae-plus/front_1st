@@ -14,7 +14,7 @@ function MyReact() {
   };
 
   function render($root, rootComponent) {
-    resetHookContext();
+    initContext();
     const newElement = rootComponent();
     updateElement($root, newElement);
     _root = $root;
@@ -26,6 +26,7 @@ function MyReact() {
     useState,
     useMemo,
     resetContext: resetHookContext,
+    initContext,
   } = createHooks(_render);
 
   return { render, useState, useMemo };

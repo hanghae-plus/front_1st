@@ -41,6 +41,7 @@ function main() {
   const amount = 10000000;
   for (var i = 0; i < amount; i++) {
     new JuniorEngineer(10, Math.floor(Math.random() * 20)).isBornGenius();
+    // %DebugPrint(junior);
   }
   var endTime = performance.now();
   console.timeEnd();
@@ -50,4 +51,4 @@ function main() {
 
 main();
 
-module.exports = { Worker, JuniorEngineer };
+export { Worker, JuniorEngineer };

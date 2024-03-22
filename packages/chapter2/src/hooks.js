@@ -24,6 +24,18 @@ export function createHooks(callback) {
     return [hooks[key], setState];
   };
 
+  const useEffect = (fn, refs) => {
+    // TODO: useEffect 구현 해보기
+    const key = hooksKey;
+
+    if (hooks[key] === undefined) {
+      hooks[key] = refs;
+      fn();
+    } else {
+      let hasChanged = false;
+    }
+  };
+
   const useMemo = (fn, refs) => {
     const key = hooksKey;
 
@@ -60,5 +72,10 @@ export function createHooks(callback) {
     hooksKey = 0;
   };
 
-  return { useState, useMemo, resetContext };
+  const initContext = () => {
+    hooksKey = 0;
+    hooks = [];
+  };
+
+  return { useState, useMemo, resetContext, initContext };
 }
