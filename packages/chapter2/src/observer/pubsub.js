@@ -1,4 +1,5 @@
 export const 구독 = fn => {
+  console.log('test');
   fn();
 }
 
