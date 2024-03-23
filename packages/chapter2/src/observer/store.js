@@ -1,6 +1,16 @@
+import { 발행기관 } from "./pubsub.js";
+
 export class Store {
-  constructor({ state, mutations, actions }) {}
+  constructor({ state, mutations, actions }) {
+    this.state = 발행기관(state);
+    this.mutations = mutations;
+    this.actions = actions;
+  }
 
-  commit(action, payload) {}
-
+  commit(action, payload) {
+    if (!this.mutations[action]) {
+      return;
+    }
+    this.mutations[action](this.state, payload);
+  }
 }
