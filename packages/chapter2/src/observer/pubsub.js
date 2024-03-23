@@ -1,4 +1,3 @@
-// const _callbacks = [];
 const _propsObservers = {};
 let _currentCallback;
 
