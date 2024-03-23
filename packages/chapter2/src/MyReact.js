@@ -7,7 +7,7 @@ function MyReact() {
     rootComponent: null,
     currentNode: null,
     beforeNode: null,
-  }
+  };
 
   const _render = () => {
     const currentNode = renderContext.rootComponent();
@@ -27,7 +27,11 @@ function MyReact() {
     _render();
   }
 
-  const { useState, useMemo, resetContext: resetHookContext } = createHooks(_render);
+  const {
+    useState,
+    useMemo,
+    resetContext: resetHookContext,
+  } = createHooks(_render);
 
   return { render, useState, useMemo };
 }
