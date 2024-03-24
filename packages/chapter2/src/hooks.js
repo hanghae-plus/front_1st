@@ -1,58 +1,57 @@
 export function createHooks(callback) {
-  const _states = [];
-  let _stateIndex = 0;
-
-  const _memos = [];
-  let _memoIndex = 0;
-
-  const _createState = (initState) => {
-    const index = _states.length;
-    const setState = (newState) => {
-      const state = _states[index][0];
-      if (state !== newState) {
-        _states[index][0] = newState;
-        callback();
-      }
-    };
-    _states.push([initState, setState]);
+  const stateContext = {
+    current: 0,
+    states: [],
   };
 
-  const _createMemo = (fn, refs) => {
-    _memos.push([fn(), [...refs]]);
+  const memoContext = {
+    current: 0,
+    memos: [],
   };
+
+  function resetContext() {
+    stateContext.current = 0;
+    memoContext.current = 0;
+  }
 
   const useState = (initState) => {
-    if (_states.length <= _stateIndex) {
-      _createState(initState);
-    }
+    const { current, states } = stateContext;
+    stateContext.current += 1;
 
-    const state = _states[_stateIndex];
-    _stateIndex += 1;
+    states[current] = states[current] ?? initState;
 
-    return state;
+    const setState = (newState) => {
+      if (newState === states[current]) return;
+      states[current] = newState;
+      callback();
+    };
+
+    return [states[current], setState];
   };
 
   const useMemo = (fn, refs) => {
-    if (_memos.length <= _memoIndex) {
-      _createMemo(fn, refs);
+    const { current, memos } = memoContext;
+    memoContext.current += 1;
+
+    const memo = memos[current];
+
+    const resetAndReturn = () => {
+      const value = fn();
+      memos[current] = {
+        value,
+        refs,
+      };
+      return value;
+    };
+
+    if (!memo) {
+      return resetAndReturn();
     }
 
-    const [prevValue, prevRefs] = _memos[_memoIndex];
-    let value = prevValue;
-    let isRefChanged = refs.some((ref, index) => ref !== prevRefs[index]);
-    if (isRefChanged) {
-      value = fn();
+    if (refs.length > 0 && memo.refs.find((v, k) => v !== refs[k])) {
+      return resetAndReturn();
     }
-
-    _memos[_memoIndex] = [value, refs];
-    _memoIndex += 1;
-
-    return value;
-  };
-
-  const resetContext = () => {
-    _stateIndex = 0;
-    _memoIndex = 0;
+    return memo.value;
   };
 
   return { useState, useMemo, resetContext };
