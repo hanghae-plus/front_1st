@@ -1,4 +1,3 @@
-
 export function createHooks(callback) {
   const stateContext = {
     current: 0,
@@ -17,14 +16,24 @@ export function createHooks(callback) {
 
   const useState = (initState) => {
     const { current, states } = stateContext;
+    let animation;
+    
     stateContext.current += 1;
 
     states[current] = states[current] ?? initState;
 
     const setState = (newState) => {
+      
+      // 이전에 등록된 이벤트가 있으면 취소한다. -> 연속으로 호출되면 마지막꺼만 실행
+      cancelAnimationFrame(animation);
+
       if (newState === states[current]) return;
-      states[current] = newState;
-      callback();
+      
+      // Animation 큐에 이벤트 등록 
+      animation = requestAnimationFrame(() => {      
+        states[current] = newState;
+        callback();
+      }); 
     };
 
     return [states[current], setState];
