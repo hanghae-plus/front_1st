@@ -1,58 +1,96 @@
 export function createHooks(callback) {
-  const stateContext = {
-    current: 0,
-    states: [],
-  };
+    let hooksKey = 0;
+    let hooks = [];
+    let effects = [];
 
-  const memoContext = {
-    current: 0,
-    memos: [],
-  };
+    const useState = (initState) => {
+        const key = hooksKey;
 
-  function resetContext() {
-    stateContext.current = 0;
-    memoContext.current = 0;
-  }
+        if (hooks[key] === undefined) {
+            hooks[key] = initState;
+        }
 
-  const useState = (initState) => {
-    const { current, states } = stateContext;
-    stateContext.current += 1;
+        const setState = (newState) => {
+            if (hooks[key] === newState) return;
 
-    states[current] = states[current] ?? initState;
+            hooks[key] = newState;
 
-    const setState = (newState) => {
-      if (newState === states[current]) return;
-      states[current] = newState;
-      callback();
+            cancelAnimationFrame();
+            requestAnimationFrame(() => {
+                callback();
+            });
+        };
+
+        hooksKey += 1;
+
+        return [hooks[key], setState];
     };
 
-    return [states[current], setState];
-  };
+    const useEffect = (fn, refs) => {
+        // TODO: useEffect 구현 해보기
+        const key = hooksKey;
 
-  const useMemo = (fn, refs) => {
-    const { current, memos } = memoContext;
-    memoContext.current += 1;
-
-    const memo = memos[current];
-
-    const resetAndReturn = () => {
-      const value = fn();
-      memos[current] = {
-        value,
-        refs,
-      };
-      return value;
+        if (hooks[key] === undefined) {
+            hooks[key] = refs;
+            effects.push(fn);
+        } else {
+            const oldDependencies = hooks[key];
+            if (depIsChanged(oldDependencies, refs)) {
+                hooks[key] = refs;
+                effects.push(fn);
+            }
+        }
     };
 
-    if (!memo) {
-      return resetAndReturn();
+    const useMemo = (fn, refs) => {
+        const key = hooksKey;
+
+        if (hooks[key] === undefined) {
+            hooks[key] = {
+                value: fn(),
+                dependencies: refs,
+            };
+        } else {
+            const oldDependencies = hooks[key].dependencies;
+
+            if (depIsChanged(oldDependencies, refs)) {
+                hooks[key] = {
+                    value: fn(),
+                    dependencies: refs,
+                };
+            }
+
+        }
+
+        hooksKey += 1;
+
+        return hooks[key];
+    };
+
+    const executeAllEffects = () => {
+        effects.forEach((effect) => effect());
     }
 
-    if (refs.length > 0 && memo.refs.find((v, k) => v !== refs[k])) {
-      return resetAndReturn();
-    }
-    return memo.value;
-  };
+    const resetContext = () => {
+        hooksKey = 0;
+    };
 
-  return { useState, useMemo, resetContext };
+    const initContext = () => {
+        hooksKey = 0;
+        hooks = [];
+    };
+
+    const depIsChanged = (old, refs) => {
+        let hasChanged = false;
+
+        refs.forEach((dep, index) => {
+            const areTheSame = Object.is(dep, old[index]);
+            if (!areTheSame) {
+                hasChanged = true;
+            }
+        });
+        return hasChanged
+    }
+
+    return {useState, useMemo, useEffect, executeAllEffects, resetContext, initContext};
 }

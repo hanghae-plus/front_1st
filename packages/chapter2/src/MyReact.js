@@ -1,39 +1,37 @@
-import { createHooks } from "./hooks";
-import { render as updateElement } from "./render";
+import {createHooks} from "./hooks";
+import {render as updateElement} from "./render";
 
 function MyReact() {
-  const renderContext = {
-    $root: null,
-    rootComponent: null,
-    currentNode: null,
-    beforeNode: null,
-  };
+    let _root;
+    let _renderFunction;
+    let _currentElement;
 
-  const _render = () => {
-    const currentNode = renderContext.rootComponent();
+    const _render = () => {
+        resetHookContext();
+        const newElement = _renderFunction();
+        updateElement(_root, newElement, _currentElement);
+        executeAllEffects();
+        _currentElement = newElement;
+    };
 
-    updateElement(renderContext.$root, currentNode, renderContext.currentNode);
-    resetHookContext();
+    function render($root, rootComponent) {
+        initContext();
+        const newElement = rootComponent();
+        updateElement($root, newElement, null);
+        _root = $root;
+        _renderFunction = rootComponent;
+        _currentElement = newElement;
+    }
 
-    renderContext.beforeNode = renderContext.currentNode;
-    renderContext.currentNode = currentNode;
-  };
+    const {
+        useState,
+        useMemo,
+        resetContext: resetHookContext,
+        initContext,
+        executeAllEffects,
+    } = createHooks(_render);
 
-  function render($root, rootComponent) {
-    renderContext.$root = $root;
-    renderContext.rootComponent = rootComponent;
-    renderContext.currentNode = null;
-    renderContext.beforeNode = null;
-    _render();
-  }
-
-  const {
-    useState,
-    useMemo,
-    resetContext: resetHookContext,
-  } = createHooks(_render);
-
-  return { render, useState, useMemo };
+    return {render, useState, useMemo};
 }
 
 export default MyReact();

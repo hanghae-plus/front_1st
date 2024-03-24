@@ -1,36 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="0d31b341-ade6-4603-b53c-4b964ca9d77b" name="Changes" comment="" />
+    <list default="true" id="0d31b341-ade6-4603-b53c-4b964ca9d77b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/chapter2/node_modules/.vite/vitest/results.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/chapter2/node_modules/.vite/vitest/results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/chapter2/src/MyReact.js" beforeDir="false" afterPath="$PROJECT_DIR$/packages/chapter2/src/MyReact.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/chapter2/src/__tests__/MyReact.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/packages/chapter2/src/__tests__/MyReact.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/chapter2/src/__tests__/hooks.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/packages/chapter2/src/__tests__/hooks.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/chapter2/src/__tests__/hooks2.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/packages/chapter2/src/__tests__/hooks2.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/chapter2/src/hooks.js" beforeDir="false" afterPath="$PROJECT_DIR$/packages/chapter2/src/hooks.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/chapter2/src/hooks2.js" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="5" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 4
-}]]></component>
+  <component name="OptimizeOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="2e4v4rYkpr6VdmTqpqpmMH5yHr4" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "feat/C",
-    "last_opened_file_path": "/Users/choegihwan/Documents/Projects/hanghae/front1_chap2/front_1st",
-    "nodejs_package_manager_path": "yarn",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;code.cleanup.on.save&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;advanced&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/choegihwan/Documents/Projects/hanghae/front1_chap2/front_1st&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;rearrange.code.on.save&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -40,10 +73,25 @@
       <option name="presentableId" value="Default" />
       <updated>1711176477586</updated>
       <workItem from="1711176478857" duration="48000" />
+      <workItem from="1711208356776" duration="405000" />
+      <workItem from="1711208767311" duration="273000" />
+      <workItem from="1711209045215" duration="1069000" />
+      <workItem from="1711261782402" duration="2141000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
