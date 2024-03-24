@@ -23,8 +23,12 @@ export function createHooks(callback) {
         const setState = (newState) => {
             if (newState === states[current]) return;
             states[current] = newState;
-            callback();
         };
+
+        cancelAnimationFrame();
+        requestAnimationFrame(() => {
+            callback();
+        });
 
         return [states[current], setState];
     };

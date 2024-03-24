@@ -1,5 +1,5 @@
 import {describe, expect, test, vi} from 'vitest'
-import {createHooks} from '../hooks.js'
+import {createHooks} from '../hooks2.js'
 
 const waitOneFrame = () => new Promise(resolve => requestAnimationFrame(resolve));
 
