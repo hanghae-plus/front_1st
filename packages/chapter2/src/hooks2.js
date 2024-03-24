@@ -1,13 +1,13 @@
-
 export function createHooks(callback) {
   const stateContext = {
     current: 0,
     states: [],
+    frameId: null
   };
 
   const memoContext = {
     current: 0,
-    memos: [],
+    memos: []
   };
 
   function resetContext() {
@@ -15,16 +15,24 @@ export function createHooks(callback) {
     memoContext.current = 0;
   }
 
-  const useState = (initState) => {
+  const useState = initState => {
     const { current, states } = stateContext;
     stateContext.current += 1;
 
     states[current] = states[current] ?? initState;
 
-    const setState = (newState) => {
+    const setState = newState => {
       if (newState === states[current]) return;
       states[current] = newState;
-      callback();
+
+      if (stateContext.frameId !== null) {
+        cancelAnimationFrame(stateContext.frameId);
+      }
+
+      stateContext.frameId = requestAnimationFrame(() => {
+        stateContext.frameId = null;
+        callback();
+      });
     };
 
     return [states[current], setState];
@@ -40,7 +48,7 @@ export function createHooks(callback) {
       const value = fn();
       memos[current] = {
         value,
-        refs,
+        refs
       };
       return value;
     };
