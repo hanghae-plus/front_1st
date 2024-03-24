@@ -48,14 +48,14 @@ describe("MyReact > ", () => {
     describe("useState > ", () => {
       test("값을 정의하고 사용할 수 있다.", () => {
         const App = () => {
-          const [state] = react.useState(100);
+          const [state] = react.useState(1);
           return jsx("div", null, `현재 state: ${state}`);
         };
 
         const $root = document.createElement("div");
         react.render($root, App);
 
-        expect($root.innerHTML).toBe(`<div>현재 state: 100</div>`);
+        expect($root.innerHTML).toBe(`<div>현재 state: 1</div>`);
       });
 
       test("값을 업데이트 할 수 있다.", () => {
