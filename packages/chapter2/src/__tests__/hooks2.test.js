@@ -21,7 +21,7 @@ describe("refactored useState", () => {
 
     await waitOneFrame();
     expect(render).toBeCalledTimes(2);
-  });
+  }); //
 
   test("setState가 동시에 여러번 실행될 경우, 마지막 setState에 대해서만 render가 호출된다.", async () => {
     let currentState = null;
