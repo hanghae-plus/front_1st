@@ -3,7 +3,6 @@ export function createHooks(callback) {
   const stateContext = {
     current: 0,
     states: [],
-    animationFrame: null,
   };
 
   const memoContext = {
@@ -24,17 +23,8 @@ export function createHooks(callback) {
 
     const setState = (newState) => {
       if (newState === states[current]) return;
-
       states[current] = newState;
-
-      if (stateContext.animationFrame) {
-        cancelAnimationFrame(stateContext.animationFrame);
-      }
-
-      stateContext.animationFrame = requestAnimationFrame(() => {
-        callback();
-        stateContext.animationFrame = null;
-      });
+      callback();
     };
 
     return [states[current], setState];
