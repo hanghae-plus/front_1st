@@ -1,4 +1,5 @@
 export function jsx(type, props, ...children) {
+<<<<<<< HEAD
   return { type, props, children };
 }
 
@@ -6,10 +7,17 @@ export function createElement(node) {
   // jsx를 dom으로 변환
 
   // 노드가 문자열인 경우, 텍스트 노드를 생성
+=======
+  return { type, props, children: children.flat() }
+}
+
+export function createElement(node) {
+>>>>>>> be31ebdebbd8b227126c3f96997b03ea174ce2fb
   if (typeof node === 'string') {
     return document.createTextNode(node);
   }
 
+<<<<<<< HEAD
   // 노드가 문자열이 아닌 경우
   // 1.  node가 객체인 경우, type 속성을 기반으로 해당하는 실제 DOM 요소를 생성
   const element = document.createElement(node.type);
@@ -58,11 +66,37 @@ function updateAttributes(target, newProps, oldProps) {
       // 만약 newProps들에 해당 속성이 존재하지 않는다면 target에서 해당 속성을 제거
       target.removeAttribute(oldPropKey);
     }
+=======
+  const $el = document.createElement(node.type);
+
+  Object.entries(node.props ?? {})
+    .filter(([, value]) => value)
+    .forEach(([attr, value]) => (
+      $el.setAttribute(attr, value)
+    ));
+
+
+  node.children.map(createElement).forEach(child => $el.appendChild(child));
+
+  return $el;
+}
+
+function updateAttributes(target, newProps, oldProps) {
+  for (const [attr, value] of Object.entries(newProps)) {
+    if (oldProps[attr] === newProps[attr]) continue;
+    target.setAttribute(attr, value);
+  }
+
+  for (const attr of Object.keys(oldProps)) {
+    if (newProps[attr] !== undefined) continue;
+    target.removeAttribute(attr)
+>>>>>>> be31ebdebbd8b227126c3f96997b03ea174ce2fb
   }
 }
 
 
 export function render(parent, newNode, oldNode, index = 0) {
+<<<<<<< HEAD
   // 1. 만약 newNode가 없고 oldNode만 있다면
   if (!newNode && oldNode) { 
     //   parent에서 oldNode를 제거
@@ -114,3 +148,38 @@ export function render(parent, newNode, oldNode, index = 0) {
   //   render(parent.childNodes[index], newNode.children[i], oldNode.children[i], i);
   // }
 }
+=======
+  if (!newNode && oldNode) return parent.removeChild(parent.childNode[index]);
+  if (newNode && !oldNode) return parent.appendChild(createElement(newNode));
+  if (typeof newNode === "string" && typeof oldNode === "string") {
+    if (newNode === oldNode) return;
+    return parent.replaceChild(
+      createElement(newNode),
+      parent.childNodes[index]
+    )
+  }
+  if (newNode.type !== oldNode.type) {
+    return parent.replaceChild(
+      createElement(newNode),
+      parent.childNodes[index]
+    )
+  }
+
+  updateAttributes(
+    parent.childNodes[index],
+    newNode.props || {},
+    oldNode.props || {},
+  );
+
+  const maxLength = Math.max(newNode.children.length, oldNode.children.length);
+
+  for (let i = 0; i < maxLength; i++) {
+    render(
+      parent.childNodes[index],
+      newNode.children[i],
+      oldNode.children[i],
+      i
+    )
+  }
+}
+>>>>>>> be31ebdebbd8b227126c3f96997b03ea174ce2fb
