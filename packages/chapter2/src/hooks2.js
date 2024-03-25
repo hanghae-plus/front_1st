@@ -1,5 +1,5 @@
-
 export function createHooks(callback) {
+  let animationId = null;
   const stateContext = {
     current: 0,
     states: [],
@@ -18,13 +18,13 @@ export function createHooks(callback) {
   const useState = (initState) => {
     const { current, states } = stateContext;
     stateContext.current += 1;
-
     states[current] = states[current] ?? initState;
 
     const setState = (newState) => {
       if (newState === states[current]) return;
       states[current] = newState;
-      callback();
+      cancelAnimationFrame(animationId);
+      animationId = requestAnimationFrame(callback);
     };
 
     return [states[current], setState];
@@ -57,3 +57,30 @@ export function createHooks(callback) {
 
   return { useState, useMemo, resetContext };
 }
+let count = 0;
+const waitOneFrame = () =>
+  new Promise((resolve) => requestAnimationFrame(resolve));
+
+const getRender = async () => {
+  const render = () => {
+    count++;
+    resetContext();
+    const [a, setA] = useState("foo");
+
+    return { setA };
+  };
+
+  const { useState, resetContext } = createHooks(render);
+
+  const { setA } = render();
+  // expect(render).toBeCalledTimes(1);
+
+  setA("test1");
+  setA("test2");
+  setA("test3");
+  setA("test4");
+  setA("test5");
+  await waitOneFrame();
+};
+
+getRender();
