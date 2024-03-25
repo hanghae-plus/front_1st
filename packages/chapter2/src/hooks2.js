@@ -1,3 +1,12 @@
+function debounce(func, timeout = 10) {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      func.apply(this, args);
+    }, timeout);
+  };
+}
 
 export function createHooks(callback) {
   const stateContext = {
@@ -21,11 +30,11 @@ export function createHooks(callback) {
 
     states[current] = states[current] ?? initState;
 
-    const setState = (newState) => {
+    const setState = debounce((newState) => {
       if (newState === states[current]) return;
       states[current] = newState;
       callback();
-    };
+    });
 
     return [states[current], setState];
   };
