@@ -1,4 +1,3 @@
-
 export function createHooks(callback) {
   const stateContext = {
     current: 0,
@@ -10,27 +9,36 @@ export function createHooks(callback) {
     memos: [],
   };
 
+  let lastAnimationFrameId = null;
+
   function resetContext() {
     stateContext.current = 0;
     memoContext.current = 0;
+    lastAnimationFrameId = null;
   }
 
   const useState = (initState) => {
     const { current, states } = stateContext;
-    stateContext.current += 1;
-
-    states[current] = states[current] ?? initState;
+    if (states[current] === undefined) {
+      states[current] = initState;
+    }
 
     const setState = (newState) => {
-      if (newState === states[current]) return;
       states[current] = newState;
-      callback();
-    };
 
+      if (lastAnimationFrameId !== null) {
+        cancelAnimationFrame(lastAnimationFrameId); 
+      }
+
+      lastAnimationFrameId = requestAnimationFrame(() => {
+        callback();
+      });
+    };
+    stateContext.current += 1;
     return [states[current], setState];
   };
 
-  const useMemo = (fn, refs) => {
+const useMemo = (fn, refs) => {
     const { current, memos } = memoContext;
     memoContext.current += 1;
 
@@ -54,6 +62,7 @@ export function createHooks(callback) {
     }
     return memo.value;
   };
+
 
   return { useState, useMemo, resetContext };
 }
