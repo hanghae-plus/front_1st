@@ -1,6 +1,5 @@
-export function createHooks(callback) {
-  let isScheduled = false; // 새로운 상태로 업데이트 예약 여부를 추적하는 변수
 
+export function createHooks(callback) {
   const stateContext = {
     current: 0,
     states: [],
@@ -14,25 +13,18 @@ export function createHooks(callback) {
   function resetContext() {
     stateContext.current = 0;
     memoContext.current = 0;
-    isScheduled = false; // 컨텍스트를 리셋할 때 업데이트 예약 여부도 리셋
   }
 
   const useState = (initState) => {
     const { current, states } = stateContext;
-    if (stateContext.states[current] === undefined) {
-      stateContext.states[current] = initState;
-    }
     stateContext.current += 1;
 
+    states[current] = states[current] ?? initState;
+
     const setState = (newState) => {
+      if (newState === states[current]) return;
       states[current] = newState;
-      if (!isScheduled) { // 아직 업데이트가 예약되지 않았다면
-        isScheduled = true; // 업데이트를 예약하고
-        requestAnimationFrame(() => {
-          callback(); // 다음 애니메이션 프레임에 콜백을 호출
-          isScheduled = false; // 콜백 호출 후, 업데이트 예약 상태를 리셋
-        });
-      }
+      callback();
     };
 
     return [states[current], setState];
