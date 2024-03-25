@@ -1,5 +1,7 @@
 
 export function createHooks(callback) {
+  let isRendered = false;
+
   const stateContext = {
     current: 0,
     states: [],
@@ -18,17 +20,31 @@ export function createHooks(callback) {
   const useState = (initState) => {
     const { current, states } = stateContext;
     stateContext.current += 1;
+    console.log(initState);
 
     states[current] = states[current] ?? initState;
 
     const setState = (newState) => {
       if (newState === states[current]) return;
       states[current] = newState;
-      callback();
+      requestRender()
     };
 
     return [states[current], setState];
   };
+
+  const requestRender = () => {
+    if (isRendered) {
+      return;
+    }
+
+    isRendered = true;
+
+    requestAnimationFrame(() => {
+      isRendered = false;
+      callback();
+    })
+  }
 
   const useMemo = (fn, refs) => {
     const { current, memos } = memoContext;
