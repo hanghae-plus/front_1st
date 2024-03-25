@@ -1,4 +1,3 @@
-
 export function createHooks(callback) {
   const stateContext = {
     current: 0,
@@ -18,13 +17,15 @@ export function createHooks(callback) {
   const useState = (initState) => {
     const { current, states } = stateContext;
     stateContext.current += 1;
+    let rafId = -1;
 
     states[current] = states[current] ?? initState;
 
     const setState = (newState) => {
-      if (newState === states[current]) return;
-      states[current] = newState;
-      callback();
+      if (newState === states[current]) return; // 현재 상태와 동일한지 체크
+      states[current] = newState; // 상태 업데이트
+      cancelAnimationFrame(rafId); // 이전에 예약된 callback 취소
+      rafId = requestAnimationFrame(callback); // 새로운 상태로 callback 호출 예약
     };
 
     return [states[current], setState];
