@@ -3,6 +3,7 @@ export function createHooks(callback) {
   const stateContext = {
     current: 0,
     states: [],
+    nextRender: null, // 다음 렌더링 요청을 저장할 변수 추가
   };
 
   const memoContext = {
@@ -24,8 +25,20 @@ export function createHooks(callback) {
     const setState = (newState) => {
       if (newState === states[current]) return;
       states[current] = newState;
-      callback();
-    };
+
+      // 이전 요청이 있으면 취소
+      cancelAnimationFrame(stateContext.nextRender);
+
+      // requestAnimationFrame(callback);
+           // 다음 프레임에서 렌더링 요청
+           stateContext.nextRender = requestAnimationFrame(() => {
+            callback();
+            stateContext.nextRender = null; // 다음 렌더링 요청 초기화
+          });
+        };
+
+
+    
 
     return [states[current], setState];
   };
