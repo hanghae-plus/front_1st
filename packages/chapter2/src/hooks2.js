@@ -24,10 +24,10 @@ export function createHooks(callback) {
     const setState = (newState) => {
       if (newState === states[current]) return;
       states[current] = newState;
-      // isFrameDone이면 cancel
+
       stateContext.isFrameDone && cancelAnimationFrame();
     };
-
+    //
     if (!stateContext.isFrameDone) requestAnimationFrame(callback);
 
     return [states[current], setState];
