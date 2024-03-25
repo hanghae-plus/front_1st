@@ -20,7 +20,7 @@ jobs:
       with:
         cache: 'yarn'
     - name: chapter2-test-a
-      run: |
+    - run: |
         yarn install
         yarn workspace chapter2 run test:a
   testB:
@@ -31,7 +31,7 @@ jobs:
       with:
         cache: 'yarn'
     - name: chapter2-test-a
-      run: |
+    - run: |
         yarn install
         yarn workspace chapter2 run test:b
   testC:
@@ -42,7 +42,7 @@ jobs:
       with:
         cache: 'yarn'
     - name: chapter2-test-a
-      run: |
+    - run: |
         yarn install
         yarn workspace chapter2 run test:c
   testD:
@@ -53,7 +53,7 @@ jobs:
       with:
         cache: 'yarn'
     - name: chapter2-test-d
-      run: |
+    - run: |
         yarn install
         yarn workspace chapter2 run test:d
   testE:
@@ -64,7 +64,7 @@ jobs:
       with:
         cache: 'yarn'
     - name: chapter2-test-e
-      run: |
+    - run: |
         yarn install
         yarn workspace chapter2 run test:e
   testF:
@@ -75,7 +75,7 @@ jobs:
       with:
         cache: 'yarn'
     - name: chapter2-test-f
-      run: |
+    - run: |
         yarn install
         yarn workspace chapter2 run test:f
         
