@@ -1,10 +1,9 @@
-import { expect, test, vi } from 'vitest'
+import {expect, test, vi} from 'vitest';
 
-import { 구독, 발행기관 } from "../pubsub.js";
+import {구독, 발행기관} from '../pubsub.js';
 
 test('구독/발행 자동화 테스트', () => {
-
-  const 상태 = 발행기관({ a: 10, b: 20 });
+  const 상태 = 발행기관({a: 10, b: 20});
 
   const mockFn1 = vi.fn(() => `a = ${상태.a}`);
   const mockFn2 = vi.fn(() => `b = ${상태.b}`);
@@ -54,4 +53,4 @@ test('구독/발행 자동화 테스트', () => {
   expect(mockFn3).toReturnWith(`a + b = 300`);
   expect(mockFn4).toReturnWith(`a * b = 20000`);
   expect(mockFn5).toReturnWith(`a - b = -100`);
-})
+});
