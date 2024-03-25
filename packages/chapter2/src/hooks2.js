@@ -1,4 +1,3 @@
-
 export function createHooks(callback) {
   const stateContext = {
     current: 0,
@@ -21,10 +20,25 @@ export function createHooks(callback) {
 
     states[current] = states[current] ?? initState;
 
+    let callbackTimeout = null;
+
     const setState = (newState) => {
       if (newState === states[current]) return;
+
       states[current] = newState;
-      callback();
+
+      // 이전에 예약된 콜백이 있으면 취소
+      if (callbackTimeout !== null) {
+        clearTimeout(callbackTimeout);
+        callbackTimeout = null;
+      }
+
+      // 새로운 콜백 예약
+      callbackTimeout = setTimeout(() => {
+        callback();
+        // 콜백 실행 후 타임아웃을 해제해줌
+        callbackTimeout = null;
+      }, 0);
     };
 
     return [states[current], setState];
