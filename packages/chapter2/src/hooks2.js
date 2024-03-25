@@ -1,5 +1,6 @@
-
 export function createHooks(callback) {
+  let isCallbackScheduled = false;
+
   const stateContext = {
     current: 0,
     states: [],
@@ -24,7 +25,13 @@ export function createHooks(callback) {
     const setState = (newState) => {
       if (newState === states[current]) return;
       states[current] = newState;
-      callback();
+      if (!isCallbackScheduled) {
+        isCallbackScheduled = true;
+        requestAnimationFrame(() => {
+          callback();
+          isCallbackScheduled = false;
+        });
+      }
     };
 
     return [states[current], setState];
