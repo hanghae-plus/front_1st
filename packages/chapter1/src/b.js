@@ -32,14 +32,11 @@ class HardWork {
   }
 
   do() {
-    // for (let i = 0; i < this._tasks.length; i++) {
-    //   this._tasks[i]();
-    // }
     const taskBundleSize = 100
     const taskBundleCount = Math.ceil(this._tasks.length / taskBundleSize)
 
     // 비동기로 여러 작업을 분할한다음 순서를 보장하기 위해서
-    // Promise chain을 사용합니다.
+    // Promise chain을 사용
     let taskChain = Promise.resolve(0)
     for (let i = 0; i < taskBundleCount; i++) {
       taskChain = taskChain.then((next) => this._do(next, next + taskBundleSize))
@@ -53,8 +50,8 @@ class HardWork {
     }
 
     // 비동기로 작업을 분할하고 순서를 보장한다고 Promise만 사용한다면
-    // 우선순위가 높은 microTaskQueue를 계속 점유하기 때문에 병목이 해결되지 않습니다.
-    // setTimeout을 통해 중간에 macroQueue로 작업을 한번 빼줘야 합니다.
+    // 우선순위가 높은 microTaskQueue를 계속 점유하기 때문에 병목이 해결되지 않음.
+    // setTimeout을 통해 중간에 macroQueue로 작업을 한번 빼줘야 함.
     return new Promise((resolve) => {
       setTimeout(() => resolve(end), 0)
     })
