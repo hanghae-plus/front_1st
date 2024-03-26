@@ -1,59 +1,70 @@
-
 export function createHooks(callback) {
   const stateContext = {
     current: 0,
     states: [],
-  };
+  }
 
   const memoContext = {
     current: 0,
     memos: [],
-  };
+  }
 
   function resetContext() {
-    stateContext.current = 0;
-    memoContext.current = 0;
+    stateContext.current = 0
+    memoContext.current = 0
+  }
+
+  const debounce = (callback) => {
+    let next = -1
+
+    return () => {
+      stateContext.current += 1
+
+      cancelAnimationFrame(next)
+
+      next = requestAnimationFrame(callback)
+    }
   }
 
   const useState = (initState) => {
-    const { current, states } = stateContext;
-    stateContext.current += 1;
+    const { current, states } = stateContext
+    states[current] = states[current] ?? initState
 
-    states[current] = states[current] ?? initState;
+    const debouncedCallback = debounce(callback)
 
     const setState = (newState) => {
-      if (newState === states[current]) return;
-      states[current] = newState;
-      callback();
-    };
+      if (newState === states[current]) return
+      states[current] = newState
+      debouncedCallback()
+    }
 
-    return [states[current], setState];
-  };
+    return [states[current], setState]
+  }
 
   const useMemo = (fn, refs) => {
-    const { current, memos } = memoContext;
-    memoContext.current += 1;
+    const { current, memos } = memoContext
+    memoContext.current += 1
 
-    const memo = memos[current];
+    const memo = memos[current]
 
     const resetAndReturn = () => {
-      const value = fn();
+      const value = fn()
       memos[current] = {
         value,
         refs,
-      };
-      return value;
-    };
+      }
+      return value
+    }
 
     if (!memo) {
-      return resetAndReturn();
+      return resetAndReturn()
     }
 
     if (refs.length > 0 && memo.refs.find((v, k) => v !== refs[k])) {
-      return resetAndReturn();
+      return resetAndReturn()
     }
-    return memo.value;
-  };
+    return memo.value
+  }
 
-  return { useState, useMemo, resetContext };
+  return { useState, useMemo, resetContext }
 }
