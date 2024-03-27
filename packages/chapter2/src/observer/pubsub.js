@@ -7,7 +7,7 @@ export const 구독 = (fn) => {
   fn();
   currentFunc = null;
 };
-
+//
 export const 발행기관 = (obj) => {
   Object.keys(obj).forEach((key) => {
     let value = obj[key];
