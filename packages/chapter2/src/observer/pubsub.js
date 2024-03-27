@@ -1,4 +1,5 @@
 let currentCallback = null;
+const observer = {};
 
 export const 구독 = fn => {
   currentCallback = fn;
@@ -6,23 +7,18 @@ export const 구독 = fn => {
   currentCallback = null;
 }
 
-export const 발행기관 = obj => {
-  Object.keys(obj).forEach(key => {
-    let _value = obj[key];
-    const observers = new Set();
-
-    Object.defineProperty(obj, key, {
-      get() {
-        if(currentCallback) observers.add(currentCallback);
-        return _value;
-      },
-      set(value) {
-        if(_value === value) return;
-        _value = value;
-        observers.forEach(fn => fn());
-      }
-    })
-  })
-
-  return obj;
-}
+export const 발행기관 = obj => 
+  new Proxy(obj, {
+    get (target, name) {
+      observer[name] = observer[name] || new Set();
+      if (currentCallback) observer[name].add(currentCallback)
+      return target[name];
+    },
+    set (target, name, value) {
+      if (target[name] === value) return true;
+      if (JSON.stringify(target[name]) === JSON.stringify(value)) return true;
+      target[name] = value;
+      observer[name].forEach(fn => fn());
+      return true;
+    },
+  });
