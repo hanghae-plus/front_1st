@@ -1,8 +1,8 @@
-
 export function createHooks(callback) {
   const stateContext = {
     current: 0,
     states: [],
+    prevCallback: [],
   };
 
   const memoContext = {
@@ -16,7 +16,7 @@ export function createHooks(callback) {
   }
 
   const useState = (initState) => {
-    const { current, states } = stateContext;
+    const { current, states, prevCallback } = stateContext;
     stateContext.current += 1;
 
     states[current] = states[current] ?? initState;
@@ -24,7 +24,12 @@ export function createHooks(callback) {
     const setState = (newState) => {
       if (newState === states[current]) return;
       states[current] = newState;
-      callback();
+
+      clearTimeout(prevCallback[current]);
+      const setCallback = setTimeout(callback, 0);
+      prevCallback[current] = setCallback;
+
+      states[current];
     };
 
     return [states[current], setState];
