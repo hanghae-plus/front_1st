@@ -18,13 +18,17 @@ export function createHooks(callback) {
   const useState = (initState) => {
     const { current, states } = stateContext;
     stateContext.current += 1;
-
+    let frame;
     states[current] = states[current] ?? initState;
 
     const setState = (newState) => {
+      cancelAnimationFrame(frame)
       if (newState === states[current]) return;
-      states[current] = newState;
-      callback();
+
+      frame = requestAnimationFrame(() => {
+        states[current] = newState;
+        callback();  
+      })
     };
 
     return [states[current], setState];
