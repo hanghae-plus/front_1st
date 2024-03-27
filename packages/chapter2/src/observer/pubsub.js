@@ -1,3 +1,4 @@
+// 과제 E
 let subFunc = null;
 
 export const 구독 = (fn) => {
