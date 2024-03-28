@@ -1,4 +1,3 @@
-
 export function createHooks(callback) {
   const stateContext = {
     current: 0,
@@ -15,6 +14,44 @@ export function createHooks(callback) {
     memoContext.current = 0;
   }
 
+  let cancelEvt = null;
+
+  function batchHandler() {
+    if (cancelEvt !== null) {
+      cancelAnimationFrame(cancelEvt);
+    }
+
+    cancelEvt = requestAnimationFrame(() => {
+      callback();
+      cancelEvt = null;
+    });
+  }
+
+  // function batchHandler() {
+  //   if (cancelEvt !== null) {
+  //     clearTimeout(cancelEvt);
+  //   }
+
+  //   cancelEvt = setTimeout(() => {
+  //     callback();
+  //     cancelEvt = null;
+  //   }, 0);
+  // }
+
+  // function batchHandler() {
+  //   if (cancelEvt !== null) {
+  //     clearTimeout(cancelEvt);
+  //   }
+
+  //   const batchPromise = new Promise((resolve) => {
+  //     cancelEvt = setTimeout(() => {
+  //       resolve();
+  //     }, 0);
+  //   });
+
+  //   return batchPromise;
+  // }
+
   const useState = (initState) => {
     const { current, states } = stateContext;
     stateContext.current += 1;
@@ -24,7 +61,9 @@ export function createHooks(callback) {
     const setState = (newState) => {
       if (newState === states[current]) return;
       states[current] = newState;
-      callback();
+      batchHandler();
+      // callback();
+      // batchHandler().then(callback);
     };
 
     return [states[current], setState];
