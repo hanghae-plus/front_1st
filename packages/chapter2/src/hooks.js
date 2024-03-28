@@ -2,28 +2,36 @@ export function createHooks(callback) {
   let hooks = [];
   let index = 0;
 
+  let memoArr = [];
+
   function useState(initialState) {
-    const state = hooks[index] || initialState;
     const localIdx = index;
+    hooks[index] = hooks[index] || initialState;
 
     const setState = (val) => {
       if (val !== hooks[localIdx]) {
         hooks[localIdx] = val;
-        resetContext();
+        callback();
       }
     };
 
     index++;
-    return [state, setState];
+    return [hooks[localIdx], setState];
   }
 
   const resetContext = () => {
     index = 0;
-    callback();
   };
 
-  const useMemo = (fn, refs) => {
-    return fn();
+  const useMemo = (fn, dependencies) => {
+    const key = dependencies.join("|");
+    if (!memoArr[key]) {
+      memoArr[key] = {
+        value: fn(),
+        dependencies: dependencies.slice(),
+      };
+    }
+    return memoArr[key].value;
   };
 
   return { useState, useMemo, resetContext };

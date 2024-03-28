@@ -16,6 +16,17 @@ export function createHooks(callback) {
 
   let cancelEvt = null;
 
+  function batchHandler() {
+    if (cancelEvt !== null) {
+      cancelAnimationFrame(cancelEvt);
+    }
+
+    cancelEvt = requestAnimationFrame(() => {
+      callback();
+      cancelEvt = null;
+    });
+  }
+
   // function batchHandler() {
   //   if (cancelEvt !== null) {
   //     clearTimeout(cancelEvt);
@@ -27,19 +38,19 @@ export function createHooks(callback) {
   //   }, 0);
   // }
 
-  function batchHandler() {
-    if (cancelEvt !== null) {
-      clearTimeout(cancelEvt);
-    }
+  // function batchHandler() {
+  //   if (cancelEvt !== null) {
+  //     clearTimeout(cancelEvt);
+  //   }
 
-    const batchPromise = new Promise((resolve) => {
-      cancelEvt = setTimeout(() => {
-        resolve();
-      }, 0);
-    });
+  //   const batchPromise = new Promise((resolve) => {
+  //     cancelEvt = setTimeout(() => {
+  //       resolve();
+  //     }, 0);
+  //   });
 
-    return batchPromise;
-  }
+  //   return batchPromise;
+  // }
 
   const useState = (initState) => {
     const { current, states } = stateContext;
@@ -50,9 +61,9 @@ export function createHooks(callback) {
     const setState = (newState) => {
       if (newState === states[current]) return;
       states[current] = newState;
-      // batchHandler();
+      batchHandler();
       // callback();
-      batchHandler().then(callback);
+      // batchHandler().then(callback);
     };
 
     return [states[current], setState];
