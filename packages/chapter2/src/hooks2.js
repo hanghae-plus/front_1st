@@ -1,5 +1,6 @@
-
 export function createHooks(callback) {
+  let isFramePending = false;
+
   const stateContext = {
     current: 0,
     states: [],
@@ -15,6 +16,15 @@ export function createHooks(callback) {
     memoContext.current = 0;
   }
 
+  function queueMicroTask() {
+    if (!isFramePending) {
+      isFramePending = true;
+      requestAnimationFrame(() => {
+        isFramePending = false;
+        callback();
+      });
+    }
+  }
   const useState = (initState) => {
     const { current, states } = stateContext;
     stateContext.current += 1;
@@ -24,7 +34,7 @@ export function createHooks(callback) {
     const setState = (newState) => {
       if (newState === states[current]) return;
       states[current] = newState;
-      callback();
+      queueMicroTask();
     };
 
     return [states[current], setState];
