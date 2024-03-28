@@ -1,5 +1,6 @@
-
 export function createHooks(callback) {
+  let animationFrameId = null;
+
   const stateContext = {
     current: 0,
     states: [],
@@ -23,8 +24,15 @@ export function createHooks(callback) {
 
     const setState = (newState) => {
       if (newState === states[current]) return;
+
       states[current] = newState;
-      callback();
+
+      if (animationFrameId === null) {
+        animationFrameId = requestAnimationFrame(() => {
+          callback();
+          animationFrameId = null;
+        });
+      }
     };
 
     return [states[current], setState];
