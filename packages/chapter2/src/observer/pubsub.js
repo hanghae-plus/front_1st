@@ -7,21 +7,30 @@ export const 구독 = (fn) => {
 };
 
 export const 발행기관 = (obj) => {
-  let newState = {};
+  Object.defineProperties(
+    obj,
+    Object.keys(obj).reduce((acc, key) => {
+      let value = obj[key];
+      const observers = new Set();
 
-  // Object.defineProperty(state, "name", {
-  //   set(value) {
-  //     newState = { a: value };
-  //   },
-  //   get() {
-  //     return newState;
-  //   },
-  // });
-  // console.log(obj);
-  // Object.defineProperties(newState, {
-  //   a: { value: obj.a, enumerable: true, configurable: true, writable: true },
-  //   b: { value: obj.b, enumerable: true, configurable: true, writable: true },
-  // });
+      acc[key] = {
+        get() {
+          if (currentCallback) {
+            observers.add(currentCallback);
+          }
+          return value;
+        },
+        set(val) {
+          value = val;
+          observers.forEach((fn) => fn());
+        },
+      };
+
+      return acc;
+    }, {})
+  );
+
+  return obj;
   // let clone = Object.getOwnPropertyDescriptors(newState);
   // const clone2 = {};
   // for (let key in newState) {
