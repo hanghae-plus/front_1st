@@ -1,4 +1,3 @@
-
 export function createHooks(callback) {
   const stateContext = {
     current: 0,
@@ -21,11 +20,15 @@ export function createHooks(callback) {
 
     states[current] = states[current] ?? initState;
 
+    let nextFrameCb = null;
+
     const setState = (newState) => {
       if (newState === states[current]) return;
       states[current] = newState;
-      callback();
     };
+
+    cancelAnimationFrame(nextFrameCb);
+    nextFrameCb = requestAnimationFrame(callback);
 
     return [states[current], setState];
   };
