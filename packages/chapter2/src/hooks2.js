@@ -21,10 +21,18 @@ export function createHooks(callback) {
 
     states[current] = states[current] ?? initState;
 
+    let scheduledCallback = null;
+
     const setState = (newState) => {
       if (newState === states[current]) return;
       states[current] = newState;
-      callback();
+      if (scheduledCallback) {
+        cancelAnimationFrame(scheduledCallback);
+      }
+      scheduledCallback = requestAnimationFrame(() => {
+        scheduledCallback = null;
+        callback();
+      });
     };
 
     return [states[current], setState];
